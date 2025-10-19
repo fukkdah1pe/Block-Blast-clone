@@ -1,0 +1,5 @@
+{
+  "name": "ZoV",
+  "description": "A simple clone of the block puzzle game Block Blast with a unique Hammer power-up.",
+  "requestFramePermissions": []
+}
