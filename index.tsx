@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 
+// --- YANDEX GAMES SDK ---
+// Объявляем глобальную переменную, чтобы TypeScript не ругался
+declare const YaGames: any;
+// --- END YANDEX GAMES SDK ---
+
 // --- Constants ---
 const GRID_SIZE = 8;
 const BLOCK_COLORS = [
@@ -495,5 +500,17 @@ const App = () => {
     );
 };
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-root.render(<App />);
+// --- YANDEX GAMES SDK ---
+// Инициализируем SDK перед рендером приложения
+YaGames.init()
+    .then(ysdk => {
+        console.log('Yandex SDK is ready');
+        // Сохраняем ysdk в глобальную переменную, если он понадобится в других частях приложения
+        (window as any).ysdk = ysdk;
+
+        // Теперь, когда SDK готов, рендерим приложение
+        const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+        root.render(<App />);
+    })
+    .catch(console.error);
+// --- END YANDEX GAMES SDK ---
